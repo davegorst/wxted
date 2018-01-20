@@ -30,7 +30,9 @@
 #include "wxTEDMain.h"
 #include <wx/msgdlg.h>
 #include "wx/wx.h"
-#include <winver.h>
+#ifdef __WIN32__
+	#include <winver.h>
+#endif
 
 //(*InternalHeaders(wxTEDFrame)
 #include <wx/font.h>
@@ -1442,12 +1444,12 @@ void wxTEDFrame::OnMenuItemPublish(wxCommandEvent& event)
     }
 
     // Work out the source
-    LPCTSTR source=sp.ToStdWstring().c_str();
+    const wxChar * source=sp.ToStdWstring().c_str();
 
     // Work out the destination
-    LPCTSTR path=m_publish_ftp_remote;
+    const wxChar * path=m_publish_ftp_remote;
     TCHAR buff[100]=_T("");
-    LPTSTR destination=buff;
+    wxChar * destination=buff;
     _tcscat(destination,path);
     _tcscat(destination,spShort.ToStdWstring().c_str());
 
@@ -1751,7 +1753,7 @@ void wxTEDFrame::OnMenuItemProperties(wxCommandEvent& event)
     }
 }
 
-int send(LPCTSTR ftp, LPCTSTR user, LPCTSTR pass, LPCTSTR pathondisk, LPTSTR nameonftp)
+int send(const wxChar * ftp, const wxChar * user, const wxChar * pass, const wxChar * pathondisk, wxChar * nameonftp)
 {
 
 	HINTERNET hInternet;
@@ -1763,13 +1765,13 @@ int send(LPCTSTR ftp, LPCTSTR user, LPCTSTR pass, LPCTSTR pathondisk, LPTSTR nam
 		return 1;
 	}
 	std::cout << "Connecting with ftp=" << _(ftp) << " user=" << _(user) << " pass=" << _(pass) << std::endl;
-	hFtpSession = InternetConnect(hInternet,(LPTSTR)ftp , INTERNET_DEFAULT_FTP_PORT, (LPTSTR)user, (LPTSTR)pass, INTERNET_SERVICE_FTP, INTERNET_FLAG_PASSIVE, 0);
+	hFtpSession = InternetConnect(hInternet,(wxChar *)ftp , INTERNET_DEFAULT_FTP_PORT, (wxChar *)user, (wxChar *)pass, INTERNET_SERVICE_FTP, INTERNET_FLAG_PASSIVE, 0);
 	if(hFtpSession==NULL)
 	{
 	    std::cout << "[send] InternetConnect Failed" << std::endl;
 		return 1;
 	}
-	int x = FtpPutFile(hFtpSession, (LPTSTR)pathondisk, (LPTSTR)nameonftp, FTP_TRANSFER_TYPE_ASCII, 0);
+	int x = FtpPutFile(hFtpSession, (wxChar *)pathondisk, (wxChar *)nameonftp, FTP_TRANSFER_TYPE_ASCII, 0);
 	int y=GetLastError();
 	std::cout << "y=" << y << std::endl;
 	Sleep(1000);

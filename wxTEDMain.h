@@ -56,9 +56,11 @@
 // Version number
 #define VERSION_STRING   wxT("1.30")
 
-// ftp
-#include <wininet.h>
-#pragma comment(lib, "wininet")
+#ifdef __WIN32__
+	// ftp
+	#include <wininet.h>
+	#pragma comment(lib, "wininet")
+#endif
 
 // Publish setup
 #include "PublishSetupDialog.h"
@@ -300,6 +302,6 @@ class wxTEDFrame: public wxFrame
         DECLARE_EVENT_TABLE()
 };
 
-int send(LPCTSTR ftp, LPCTSTR user, LPCTSTR pass, LPCTSTR pathondisk, LPTSTR nameonftp);
+int send(const wxChar * ftp, const wxChar * user, const wxChar * pass, const wxChar * pathondisk, wxChar * nameonftp);
 
 #endif // WXTEDMAIN_H
