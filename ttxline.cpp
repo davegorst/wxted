@@ -83,8 +83,10 @@ std::string TTXLine::validate(std::string const& val)
         str[j++]=ch;
     }
     // short line? Remove the text terminator.
-    if (str[j-1]=='\n') j--;
-    if (str[j-1]=='\r') j--;
+	// Use STL to trim CRLF's.
+    //if (str[j-1]=='\n') j--;
+    //if (str[j-1]=='\r') j--;
+	str.erase(str.find_last_not_of("\r\n") + 1);
     str.resize(j);
     // std::cout << "Validating done " << std::endl;
     return str;
