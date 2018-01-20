@@ -1071,7 +1071,6 @@ wxTEDFrame::wxTEDFrame(wxWindow* parent,wxWindowID id, wxString initialPage)
     m_ShowMarkup=false;
     m_Released=true;
     m_blinkToggle=false;
-    m_propertiesDlg=new PageSettingsDialog(this,1000);
 
     m_reveal=true; // As this is an editor, reveal the text by default.
 
@@ -1088,6 +1087,7 @@ wxTEDFrame::wxTEDFrame(wxWindow* parent,wxWindowID id, wxString initialPage)
     wxMenuBar* MenuBar1;
 
     Create(parent, wxID_ANY, _("wxTED 1.22"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("wxID_ANY"));
+    m_propertiesDlg = new PageSettingsDialog(this, 1000);
     wxFont thisFont(10,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_NORMAL,false,_T("teletext2"),wxFONTENCODING_DEFAULT);
     SetFont(thisFont);
     Notebook1 = new wxNotebook(this, ID_NOTEBOOK1, wxDefaultPosition, wxSize(400,24), 0, _T("ID_NOTEBOOK1"));
