@@ -2,6 +2,7 @@
 #define TTXLINE_H
 #include <iostream>
 #include <string>
+#include <cstdint>
 
 #include "ttxcodes.h"
 
