@@ -61,6 +61,7 @@ std::string TTXLine::validate(std::string const& val)
     int j=0;
     std::string str="                                       ";
     str.resize(80);
+	size_t last_good_char;
     // std::cout << "Validating length= " << val.length() << std::endl;
     for (unsigned int i=0;i<val.length() && i<80;i++)
     {
@@ -83,10 +84,15 @@ std::string TTXLine::validate(std::string const& val)
         str[j++]=ch;
     }
     // short line? Remove the text terminator.
-	// Use STL to trim CRLF's.
     //if (str[j-1]=='\n') j--;
     //if (str[j-1]=='\r') j--;
-	str.erase(str.find_last_not_of("\r\n") + 1);
+	// Use STL to trim CRLF's.
+	last_good_char = str.find_last_not_of("\r\n");
+	if (last_good_char != std::string::npos)
+	{
+		str.erase(last_good_char + 1);
+		j = (int) last_good_char;
+	}
     str.resize(j);
     // std::cout << "Validating done " << std::endl;
     return str;
@@ -146,7 +152,7 @@ bool TTXLine::IsDoubleHeight(int xLoc=39)
   if (m_textline.empty())
     return false;
   if (m_textline.length()<x)
-    x=m_textline.length()-1;
+    x=(unsigned int) m_textline.length()-1;
   for (unsigned int i=0;i<=x;i++)
   {
     if (m_textline[i]=='\r' || m_textline[i]==0x10)
@@ -223,7 +229,7 @@ bool TTXLine::IsAlphaMode(int loc)
 std::string TTXLine::GetLine()
 {
     // If the string is less than 40 characters we need to pad it or get weird render errors
-    int len=m_textline.length();
+    int len=(int) m_textline.length();
     if (len<40)
         for (int i=len;i<40;i++)
             m_textline+=" ";
