@@ -1451,8 +1451,8 @@ void wxTEDFrame::OnMenuItemPublish(wxCommandEvent& event)
     const wxChar * path=m_publish_ftp_remote;
     wxChar buff[100]=_T("");
     wxChar * destination=buff;
-    _tcscat(destination,path);
-    _tcscat(destination,spShort.ToStdWstring().c_str());
+	wxStrcat(destination, path);
+	wxStrcat(destination, spShort.ToStdWstring().c_str());
 
     // And do the send
     int result=send(m_publish_ftp_server,m_publish_ftp_username,m_publish_ftp_password,source,destination);
