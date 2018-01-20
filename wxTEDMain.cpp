@@ -2244,7 +2244,9 @@ void wxTEDFrame::OnMenuItemExportTTX40Selected(wxCommandEvent& event)
   std::copy(page,page+strlen(page),back_inserter(w));
   const wchar_t *wstr = w.c_str();
 
-  ShellExecute (NULL, L"open", wstr, NULL, NULL, SW_SHOWNORMAL);
+  // TODO : Check this behaviour.
+  wxLaunchDefaultBrowser(wstr, wxBROWSER_NEW_WINDOW);
+  //ShellExecute (NULL, L"open", wstr, NULL, NULL, SW_SHOWNORMAL);
 }
 
 void wxTEDFrame::OnKeyDown(wxKeyEvent& event)
@@ -2314,5 +2316,7 @@ void wxTEDFrame::OnMenuItemZXNetSelected(wxCommandEvent& event)
   std::copy(page,page+strlen(page),back_inserter(w));
   const wchar_t *wstr = w.c_str();
 
-  ShellExecute (NULL, L"open", wstr, NULL, NULL, SW_SHOWNORMAL);
+  // TODO : Check this behaviour.
+  wxLaunchDefaultBrowser(wstr, wxBROWSER_NEW_WINDOW);
+  //ShellExecute (NULL, L"open", wstr, NULL, NULL, SW_SHOWNORMAL);
 }
