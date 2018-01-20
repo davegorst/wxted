@@ -40,6 +40,7 @@
 #include <wx/string.h>
 //*)
 #include <wx/dcbuffer.h>
+#include <wx/protocol/ftp.h>
 
 
 //helper functions
@@ -1448,7 +1449,7 @@ void wxTEDFrame::OnMenuItemPublish(wxCommandEvent& event)
 
     // Work out the destination
     const wxChar * path=m_publish_ftp_remote;
-    TCHAR buff[100]=_T("");
+    wxChar buff[100]=_T("");
     wxChar * destination=buff;
     _tcscat(destination,path);
     _tcscat(destination,spShort.ToStdWstring().c_str());
