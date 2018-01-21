@@ -56,12 +56,6 @@
 // Version number
 #define VERSION_STRING   wxT("1.30")
 
-#ifdef __WIN32__
-	// ftp
-	#include <wininet.h>
-	#pragma comment(lib, "wininet")
-#endif
-
 // Publish setup
 #include "PublishSetupDialog.h"
 

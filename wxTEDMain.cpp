@@ -41,6 +41,7 @@
 //*)
 #include <wx/dcbuffer.h>
 #include <wx/protocol/ftp.h>
+#include <wx/wfstream.h>
 #include <wx/utils.h>
 
 
@@ -1757,38 +1758,42 @@ void wxTEDFrame::OnMenuItemProperties(wxCommandEvent& event)
 
 int send(const wxChar * ftp, const wxChar * user, const wxChar * pass, const wxChar * pathondisk, wxChar * nameonftp)
 {
+	wxFTP FTPSession;
+	wxFileInputStream source_input_stream (pathondisk);
+	wxOutputStream * ftp_output_stream;
 
-	HINTERNET hInternet;
-	HINTERNET hFtpSession;
-	hInternet = InternetOpen(NULL,INTERNET_OPEN_TYPE_DIRECT,NULL,NULL,0);
-	if(hInternet==NULL)
-	{
-	    std::cout << "[send] InternetOpen Failed" << std::endl;
-		return 1;
-	}
+	FTPSession.SetUser(user);
+	FTPSession.SetPassword(pass);
+	FTPSession.SetPassive(true);
+	FTPSession.SetAscii();
 	std::cout << "Connecting with ftp=" << _(ftp) << " user=" << _(user) << " pass=" << _(pass) << std::endl;
-	hFtpSession = InternetConnect(hInternet,(wxChar *)ftp , INTERNET_DEFAULT_FTP_PORT, (wxChar *)user, (wxChar *)pass, INTERNET_SERVICE_FTP, INTERNET_FLAG_PASSIVE, 0);
-	if(hFtpSession==NULL)
+	if(!FTPSession.Connect(ftp))
 	{
 	    std::cout << "[send] InternetConnect Failed" << std::endl;
 		return 1;
 	}
-	int x = FtpPutFile(hFtpSession, (wxChar *)pathondisk, (wxChar *)nameonftp, FTP_TRANSFER_TYPE_ASCII, 0);
-	int y=GetLastError();
-	std::cout << "y=" << y << std::endl;
+	ftp_output_stream = FTPSession.GetOutputStream(nameonftp);
+
+	int x;
+	if (ftp_output_stream != NULL)
+	{
+		ftp_output_stream->Write(source_input_stream);
+		x = ftp_output_stream->LastWrite();
+		delete ftp_output_stream;
+	}
+	// int x = FtpPutFile(hFtpSession, (wxChar *)pathondisk, (wxChar *)nameonftp, FTP_TRANSFER_TYPE_ASCII, 0);
+	//int y=GetLastError();
+	//std::cout << "y=" << y << std::endl;
 	wxMilliSleep(1000);
-	InternetCloseHandle(hFtpSession);
-	InternetCloseHandle(hInternet);
-	if(x==0)
+	if(!x)
 	{
 	    std::cout << "[send] FtpPutFile Failed" << std::endl;
 		return 1;
 	}
-	if(x==1)
+	else
 	{
 		return 0;
 	}
-	return 1;
 }
 
 void wxTEDFrame::OnMenuItemPublishSettings(wxCommandEvent& event)

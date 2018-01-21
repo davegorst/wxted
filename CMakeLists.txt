@@ -23,7 +23,7 @@ SET(WXW_USE_MONO OFF)
 SET(wxWidgets_USE_LIBS std aui)
 
 # We need the Find package for wxWidgets to work
-FIND_PACKAGE( wxWidgets COMPONENTS core base aui html REQUIRED )
+FIND_PACKAGE( wxWidgets COMPONENTS core base aui html net REQUIRED )
 
 include( ${wxWidgets_USE_FILE} )
 
