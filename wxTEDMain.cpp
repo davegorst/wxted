@@ -2237,7 +2237,7 @@ void wxTEDFrame::OnMenuItemExportTTX40Selected(wxCommandEvent& event)
   // Convert to a teletext 40 URL
   // TODO: Implement character set
   char page[1300];
-  save_to_hash(1, page,cc, "http://edit.tf", m_currentPage);
+  save_to_hash(1, page,cc, (char *) "http://edit.tf", m_currentPage);
   CopyTextToClipboard(page);
   // Launch a browser with the URL
   // Widen the URL
@@ -2309,7 +2309,7 @@ void wxTEDFrame::OnMenuItemZXNetSelected(wxCommandEvent& event)
   // Convert to a teletext 40 URL
   // TODO: Implement character set
   char page[1300];
-  save_to_hash(1, page,cc, "http://temp.zxnet.co.uk/editor", m_currentPage);
+  save_to_hash(1, page,cc, (char *) "http://temp.zxnet.co.uk/editor", m_currentPage);
   CopyTextToClipboard(page);
   // Launch a browser with the URL
   // Widen the URL
