@@ -41,6 +41,7 @@
 //*)
 #include <wx/dcbuffer.h>
 #include <wx/protocol/ftp.h>
+#include <wx/utils.h>
 
 
 //helper functions
@@ -1775,7 +1776,7 @@ int send(const wxChar * ftp, const wxChar * user, const wxChar * pass, const wxC
 	int x = FtpPutFile(hFtpSession, (wxChar *)pathondisk, (wxChar *)nameonftp, FTP_TRANSFER_TYPE_ASCII, 0);
 	int y=GetLastError();
 	std::cout << "y=" << y << std::endl;
-	Sleep(1000);
+	wxMilliSleep(1000);
 	InternetCloseHandle(hFtpSession);
 	InternetCloseHandle(hInternet);
 	if(x==0)
